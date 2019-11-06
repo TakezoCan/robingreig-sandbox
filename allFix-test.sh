@@ -3,17 +3,21 @@
 # Connect to Ethernet before running so that it can access updates
 
 ## Add SAIT IP addresses for NTP servers
+#bash -c "echo 'Updating timesyncd file STARTING'"
 #sudo cp -f /etc/systemd/timesyncd.conf /etc/systemd/timesyncd.conf.bak
 #sudo bash -c "echo 'NTP= 10.197.2.9 10.197.3.9 0.ca.pool.ntp.org 1.ca.pool.ntp.org' >> /etc/systemd/timesyncd.conf"
+#bash -c "echo 'Updating timesyncd file FINISHED'"
 #sudo timedatectl set-ntp true
 
 ## Set current time
+#bash -c "echo 'Setting current date & time for update & upgrade'"
 #read -p 'Current Date YYYY/MM/DD: ' datevar
 #sudo date -s $datevar
 #read -p 'Current Time HH:MM: ' timevar
 #sudo date -s $timevar
 
 ## Update && Upgrade
+#bash -c "echo 'Update & Upgrade STARTING'"
 #sudo apt update && sudo apt upgrade -y
 
 ## Temporary fix for WPA Enterprise on Raspbian Buster
@@ -25,8 +29,10 @@
 #sudo apt-mark hold wpasupplicant
 #sudo cp -f /etc/apt/sources.list.bak /etc/apt/sources.list
 #sudo apt update
+#bash -c "echo 'Update & Upgrade FINISHED'"
 
 ## Update wpa_supplicant file
+#bash -c "echo 'Updating wpa_supplicant file STARTING'"
 sudo cp -f /etc/wpa_supplicant/wpa_supplicant.conf /etc/wpa_supplicant/wpa_supplicant.conf.bak
 sudo bash -c "echo 'country=CA' > /etc/wpa_supplicant/wpa_supplicant.conf"
 sudo bash -c "echo 'ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev' >> /etc/wpa_supplicant/wpa_supplicant.conf"
@@ -57,6 +63,7 @@ sudo bash -c "echo '     password=hash:$hashonly' >> /etc/wpa_supplicant/wpa_sup
 sudo bash -c "echo '     phase1=\"peaplabel=0\"' >> /etc/wpa_supplicant/wpa_supplicant.conf"
 sudo bash -c "echo '     phase2=\"auth=MSCHAPV2\"' >> /etc/wpa_supplicant/wpa_supplicant.conf"
 sudo bash -c "echo '}' >> /etc/wpa_supplicant/wpa_supplicant.conf"
+#bash -c "echo 'Updating wpa_supplicant file DONE'"
 
 # Reboot system for changes to take place
 #sudo reboot
