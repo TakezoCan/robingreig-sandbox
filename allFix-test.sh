@@ -4,7 +4,7 @@
 
 ## Add SAIT IP addresses for NTP servers
 #sudo cp -f /etc/systemd/timesyncd.conf /etc/systemd/timesyncd.conf.bak
-#sudo bash -c "echo 'NTP= 10.197.2.9 10.197.3.9' >> /etc/systemd/timesyncd.conf"
+#sudo bash -c "echo 'NTP= 10.197.2.9 10.197.3.9 0.ca.pool.ntp.org 1.ca.pool.ntp.org' >> /etc/systemd/timesyncd.conf"
 #sudo timedatectl set-ntp true
 
 ## Set current time
@@ -44,11 +44,15 @@ read -p 'SAIT Username: ' uservar
 sudo bash -c "echo '     identity=\"$uservar\"' >> /etc/wpa_supplicant/wpa_supplicant.conf"
 #sudo bash -c "echo '     identity=\"serv16makerspace01\"' >> /etc/wpa_supplicant/wpa_supplicant.conf"
 read -p 'SAIT Password: ' passvar
+bash -c "echo 'passvar= '$passvar"
 encryptpass=`echo -n $passvar | iconv -t utf16le | openssl md4`
-IFS=''
+bash -c "echo 'encryptpass= '$encryptpass"
+IFS=' '
 read -ra hash <<< "$encryptpass"
+bash -c "echo 'hash= '$hash"
 hashonly=${hash[1]}
-sudo bash -c "echo '     password=hash:\"$hashonly\"' >> /etc/wpa_supplicant/wpa_supplicant.conf"
+bash -c "echo 'hashonly= '$hashonly"
+sudo bash -c "echo '     password=hash:$hashonly' >> /etc/wpa_supplicant/wpa_supplicant.conf"
 #sudo bash -c "echo '     password=\"MkSP@1601\"' >> /etc/wpa_supplicant/wpa_supplicant.conf"
 sudo bash -c "echo '     phase1=\"peaplabel=0\"' >> /etc/wpa_supplicant/wpa_supplicant.conf"
 sudo bash -c "echo '     phase2=\"auth=MSCHAPV2\"' >> /etc/wpa_supplicant/wpa_supplicant.conf"
