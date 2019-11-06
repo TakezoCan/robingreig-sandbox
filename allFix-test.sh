@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # Connect to Ethernet before running so that it can access updates
 
@@ -45,15 +45,15 @@ sudo bash -c "echo '     identity=\"$uservar\"' >> /etc/wpa_supplicant/wpa_suppl
 #sudo bash -c "echo '     identity=\"serv16makerspace01\"' >> /etc/wpa_supplicant/wpa_supplicant.conf"
 read -p 'SAIT Password: ' passvar
 encryptpass=`echo -n $passvar | iconv -t utf16le | openssl md4`
-IFS=' '
+IFS=''
 read -ra hash <<< "$encryptpass"
 hashonly=${hash[1]}
-sudo bash -c "echo '     password=\"$hashonly\"' >> /etc/wpa_supplicant/wpa_supplicant.conf"
+sudo bash -c "echo '     password=hash:\"$hashonly\"' >> /etc/wpa_supplicant/wpa_supplicant.conf"
 #sudo bash -c "echo '     password=\"MkSP@1601\"' >> /etc/wpa_supplicant/wpa_supplicant.conf"
 sudo bash -c "echo '     phase1=\"peaplabel=0\"' >> /etc/wpa_supplicant/wpa_supplicant.conf"
 sudo bash -c "echo '     phase2=\"auth=MSCHAPV2\"' >> /etc/wpa_supplicant/wpa_supplicant.conf"
 sudo bash -c "echo '}' >> /etc/wpa_supplicant/wpa_supplicant.conf"
 
 # Reboot system for changes to take place
-sudo reboot
+#sudo reboot
 
