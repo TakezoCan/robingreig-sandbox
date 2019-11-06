@@ -44,7 +44,11 @@ read -p 'SAIT Username: ' uservar
 sudo bash -c "echo '     identity=\"$uservar\"' >> /etc/wpa_supplicant/wpa_supplicant.conf"
 #sudo bash -c "echo '     identity=\"serv16makerspace01\"' >> /etc/wpa_supplicant/wpa_supplicant.conf"
 read -p 'SAIT Password: ' passvar
-sudo bash -c "echo '     password=\"$passvar\"' >> /etc/wpa_supplicant/wpa_supplicant.conf"
+encryptpass=`echo -n $passvar | iconv -t utf16le | openssl md4`
+IFS=' '
+read -ra hash <<< "$encryptpass"
+hashonly=${hash[1]}
+sudo bash -c "echo '     password=\"$hashonly\"' >> /etc/wpa_supplicant/wpa_supplicant.conf"
 #sudo bash -c "echo '     password=\"MkSP@1601\"' >> /etc/wpa_supplicant/wpa_supplicant.conf"
 sudo bash -c "echo '     phase1=\"peaplabel=0\"' >> /etc/wpa_supplicant/wpa_supplicant.conf"
 sudo bash -c "echo '     phase2=\"auth=MSCHAPV2\"' >> /etc/wpa_supplicant/wpa_supplicant.conf"
