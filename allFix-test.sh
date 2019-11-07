@@ -64,6 +64,7 @@ sudo bash -c "echo '     phase1=\"peaplabel=0\"' >> /etc/wpa_supplicant/wpa_supp
 sudo bash -c "echo '     phase2=\"auth=MSCHAPV2\"' >> /etc/wpa_supplicant/wpa_supplicant.conf"
 sudo bash -c "echo '}' >> /etc/wpa_supplicant/wpa_supplicant.conf"
 #bash -c "echo 'Updating wpa_supplicant file DONE'"
+sleep 3
 
 # Reboot system for changes to take place
 #sudo reboot
